@@ -119,6 +119,8 @@ contract VotingSystem is Ownable {
     /// @return the created poll id
     function createNewPoll(string memory title, string[] memory options, uint32 duration) public payable returns (uint32) {
 
+        // amount is very low for smooth testing/development
+        // but should be changed in production
         if (msg.value < 1 gwei) {
           revert("Amount sent is less than 1 gwei");
         }
