@@ -1,6 +1,8 @@
 ## Project Description
 
-This is a *decenteralized application* for **blind voting**, which means that the voters won't know who voted for which option and how many votes for each option untill the poll ends
+A decentralized voting application that ensures voter privacy through **blind voting**.
+
+Users can create polls/proposals and vote without revealing their choices or seeing results until the poll ends, ensuring fairness and transparency.
 
 Currently, the active contract is deployed on **Scroll Sepolia Testnet**, as the dApp is still under developemnt and testing
 
@@ -66,6 +68,8 @@ Compiling can be useful to check for errors.
 
 #### Deployment
 
+You can deploy the smart contract whether you are deploying your own version or redeploying it to another chain.
+
 Before you deploy, you will have to prepare your ```.env``` file:
 
 1. Rename ```.env.example``` in the root of the project to  ```.env```
@@ -74,32 +78,31 @@ Before you deploy, you will have to prepare your ```.env``` file:
 
 3. Add your web3 address as a value for ```WEB3_ADDRESS```
 
-4. The `RPC_URL` is already written as for Scroll Seploia, but you can change it if you would like
+4. The ```RPC_URL``` is already written as for Scroll Seploia, but you can change it if you would like
 
-#### Connect the deployed contract with Next.js app:
+**Please, notice that the new deployed smart contract can be a part of this repo only after checking and approved by the maintainer. You create a new issue to request adding your smart contract deployment address**
 
+#### Connect the deployed contract with Next.js app;
 
 Copy the ABI and the contract address to the ```wagmiContractConfig``` object in the ```/dapp/app/common/contracts.ts``` file 
 
-
 To check the ABI and test the deploying, run:
 
-
-`make test_deploy`
+```make test_deploy```
 
 To deploy on Scroll Sepolia and get the contract address, run:
 
-`make deploy`
+```make deploy```
 
 ### Testing
 
 #### Unit/Integration Testing
 
-All the tests in the `tests` directory.
+All the smart contract tests are in the `tests` directory.
 
 To run the tests run:
 
-`forge test`
+```forge test```
 
 #### Smart Contract Deploying Testing
 
