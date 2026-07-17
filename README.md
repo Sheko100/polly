@@ -104,7 +104,7 @@ forge test
 
 **Deployment testing**
 
-(Follow the instructions here)[]
+[Follow the instructions here](DEPLOYMENT_TESTING.md)
 
 ### 🚀 Deploy to Scroll Sepolia
 
@@ -223,8 +223,6 @@ MIT
 - Wagmi + Viem
 
 - Tailwind CSS
-
-
 
 ## 🔗 Current active contract
 
