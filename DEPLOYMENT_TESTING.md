@@ -6,7 +6,7 @@ You can use `anvil` command which is included in the foundry toolkit to deploy t
 
 You will get 10 pre-funded accounts with 10 private keys for testing.
 
-Insert screenshot here from the terminal
+![Testing through anvil](assets/testing_anvil.png)
 
 Now you have like a blockchain simulation listening on 127.0.0.1:8545. It's similar to when you run **http-server** while developing web2 app.
 
