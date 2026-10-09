@@ -24,7 +24,7 @@ contract VotingSystem is Ownable {
 
     /// @notice the created polls count
     uint32 public allPollsCount = 0;
-    
+
     /// @notice the active polls count
     uint32 public activePollsCount = 0;
 
@@ -39,7 +39,7 @@ contract VotingSystem is Ownable {
     event VoteRegistered(address voter, uint32 pollId, uint32 optionId);
 
     modifier existingPollOnly(uint32 pollId) {
-        require(isPollExist(pollId),"There is no existing poll with passed id");
+        require(isPollExist(pollId), "There is no existing poll with passed id");
         _;
     }
 
@@ -57,11 +57,11 @@ contract VotingSystem is Ownable {
         require(!hasUserVoted() || !alreadyVotedToPoll(pollId), "User already voted to this poll");
         _;
     }
-    
+
     modifier pollEndedOnly(uint32 pollId) {
         require(isPollEnded(pollId), "The poll still not ended yet");
         _;
-    }    
+    }
 
     constructor(address initialOwner) Ownable(initialOwner) {}
 
@@ -69,7 +69,7 @@ contract VotingSystem is Ownable {
     /// @param pollId the poll id
     /// @param optionId the option id
     /// @return option votes
-    function getOptionVotes(uint32 pollId, uint32 optionId) external view pollEndedOnly(pollId) returns(uint32) {
+    function getOptionVotes(uint32 pollId, uint32 optionId) external view pollEndedOnly(pollId) returns (uint32) {
         return optionVotes[pollId][optionId];
     }
 
@@ -87,7 +87,7 @@ contract VotingSystem is Ownable {
         }
         return activePolls;
     }
-    
+
     /// @notice gets the user votes
     /// @return userVotes array of arrays that has 2 members (in this order) the poll id and the option id
     function getUserVotes() public view returns (uint32[2][] memory) {
@@ -103,11 +103,11 @@ contract VotingSystem is Ownable {
         }
         return userVotes;
     }
-    
+
     /// @notice gets all the polls created even if they are deleted or ended
     /// @return an array of Poll structure
-    function getAllPolls() public view returns (Poll[] memory){
-      return polls;
+    function getAllPolls() public view returns (Poll[] memory) {
+        return polls;
     }
 
     /// @notice gets poll based on id
@@ -117,17 +117,20 @@ contract VotingSystem is Ownable {
 
     /// @notice A method that handles the creation of a new poll
     /// @return the created poll id
-    function createNewPoll(string memory title, string[] memory options, uint32 duration) public payable returns (uint32) {
-
+    function createNewPoll(string memory title, string[] memory options, uint32 duration)
+        public
+        payable
+        returns (uint32)
+    {
         // amount is very low for smooth testing/development
         // but should be changed in production
         if (msg.value < 1 gwei) {
-          revert("Amount sent is less than 1 gwei");
+            revert("Amount sent is less than 1 gwei");
         }
 
         // increment all polls count
         allPollsCount++;
-        
+
         // increment the active polls count
         activePollsCount++;
 
@@ -136,7 +139,7 @@ contract VotingSystem is Ownable {
 
         // get the poll
         Poll storage newPoll = polls[polls.length - 1];
-        
+
         newPoll.owner = msg.sender;
         newPoll.id = allPollsCount;
         newPoll.endTime = uint32(block.timestamp + duration * 1 days);
@@ -154,11 +157,10 @@ contract VotingSystem is Ownable {
     /// @notice deletes existing poll
     /// @param pollId the poll id
     function deletePoll(uint32 pollId) public payable pollOwnerOnly(pollId) {
-    
         if (msg.value < 1 gwei) {
-          revert("Amount sent is less than 1 gwei");
+            revert("Amount sent is less than 1 gwei");
         }
-        
+
         // decrement the activePollsCount
         activePollsCount = activePollsCount > 0 ? activePollsCount - 1 : 0;
 
@@ -172,9 +174,8 @@ contract VotingSystem is Ownable {
     /// @param pollId an id of a poll
     /// @param optionId an id of a poll option
     function vote(uint32 pollId, uint32 optionId) public payable singleVoteOnly(pollId, optionId) {
-
         if (msg.value < 0.5 gwei) {
-          revert("Amount sent is less than 0.5 gwei");
+            revert("Amount sent is less than 0.5 gwei");
         }
 
         // get the poll
@@ -182,12 +183,12 @@ contract VotingSystem is Ownable {
 
         // increment the votes count of the poll
         //pollsMap[pollId].votesCount += 1;
-        
+
         poll.votesCount += 1;
-        
+
         // increment the option votes count
         optionVotes[pollId][optionId] += 1;
-        
+
         // add the poll to the voted polls of the user
         votedPolls[msg.sender].push([pollId, optionId]);
 
@@ -234,17 +235,16 @@ contract VotingSystem is Ownable {
         }
         return false;
     }
-    
+
     /// @notice checks if the poll has ended or not
     /// @param _pollId the pollId
     function isPollEnded(uint32 _pollId) private view returns (bool) {
-      Poll memory poll = getPoll(_pollId);
-      
-      if (block.timestamp >= poll.endTime) {
-        return true;
-      }
-      
-      return false;
-    }    
-}
+        Poll memory poll = getPoll(_pollId);
 
+        if (block.timestamp >= poll.endTime) {
+            return true;
+        }
+
+        return false;
+    }
+}
